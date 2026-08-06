@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .glass-card {
+    @apply backdrop-blur-xl bg-slate-900/70 border border-slate-800/80 shadow-xl rounded-2xl;
+  }
+  
+  .glass-card-hover {
+    @apply transition-all duration-300 hover:border-sky-500/50 hover:shadow-electric-glow;
+  }
+
+  .electric-border-glow {
+    @apply border border-cyan-500/40 shadow-[0_0_15px_rgba(34,211,238,0.2)];
+  }
+
+  .glowing-text-cyan {
+    text-shadow: 0 0 12px rgba(34, 211, 238, 0.5);
+  }
+
+  .glowing-text-amber {
+    text-shadow: 0 0 12px rgba(251, 191, 36, 0.5);
+  }
+}
+
+/* Custom Scrollbar for hourly tables */
+::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #020617;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #0284c7;
+}

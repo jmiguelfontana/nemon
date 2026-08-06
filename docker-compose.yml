@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  # 1. Base de Datos MySQL 8.0
+  db:
+    image: mysql:8.0
+    container_name: nemon_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: nemon_energy
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # 2. Backend API REST (PHP 8.4.4 / Laravel)
+  backend:
+    build: ./backend
+    container_name: nemon_backend
+    restart: always
+    environment:
+      APP_NAME: NemonEnergy
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_URL: http://localhost:8000
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: nemon_energy
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      L5_SWAGGER_GENERATE_ALWAYS: "true"
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # 3. Frontend SPA (Vue 3 / TypeScript / Nginx)
+  frontend:
+    build: ./frontend
+    container_name: nemon_frontend
+    restart: always
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+volumes:
+  mysql_data:

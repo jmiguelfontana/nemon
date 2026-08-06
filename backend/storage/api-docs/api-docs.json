@@ -1,0 +1,301 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "NEMON - API REST de Precio Indexado de Energía",
+        "description": "API REST para el cálculo de precio indexado de energía evaluando fórmulas personalizadas sobre consumos y precios horarios OMIE_MD.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Servidor Local de Desarrollo"
+        }
+    ],
+    "paths": {
+        "/api/calculate": {
+            "post": {
+                "tags": [
+                    "Cálculo de Energía"
+                ],
+                "summary": "Calcula el precio indexado de energía",
+                "description": "Evalúa la fórmula configurada por el usuario sobre los precios OMIE_MD y consumos horarios almacenados en la base de datos.",
+                "operationId": "calculatePrice",
+                "requestBody": {
+                    "description": "Rango de fechas y fórmula matemática con el segmento obligatorio [OMIE_MD]",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "start_date",
+                                    "end_date",
+                                    "formula"
+                                ],
+                                "properties": {
+                                    "start_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-03-01"
+                                    },
+                                    "end_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-03-31"
+                                    },
+                                    "formula": {
+                                        "type": "string",
+                                        "example": "([OMIE_MD] * 0.6) + 0.88"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cálculo realizado con éxito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "price_indexed": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 95.4215
+                                        },
+                                        "total_importes": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 1500.5
+                                        },
+                                        "total_consumos": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 15.725
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request - Datos de entrada inválidos, incompletos o fórmula sintácticamente errónea",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "La fórmula debe incluir la etiqueta obligatoria [OMIE_MD]."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found - Registros de consumo o precio incompletos en el rango de fechas solicitado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "No existen registros completos de consumos o precios para la fecha: 2025-03-01"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error - Ocurrió un error inesperado al procesar los datos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Ocurrió un error interno en el servidor."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/consumptions": {
+            "get": {
+                "tags": [
+                    "Consumos"
+                ],
+                "summary": "Obtiene los registros de consumo por hora",
+                "description": "Retorna los registros de consumo en kWh para cada hora (h1 a h25), opcionalmente filtrados por rango de fechas.",
+                "operationId": "getConsumptions",
+                "parameters": [
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "description": "Fecha inicio YYYY-MM-DD",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2025-03-01"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "description": "Fecha fin YYYY-MM-DD",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2025-03-31"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de consumos por fecha y horas h1..h25",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "date": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "example": "2025-03-01"
+                                            },
+                                            "h1": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "example": 0.27
+                                            },
+                                            "h24": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "example": 0.45
+                                            },
+                                            "h25": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "example": null,
+                                                "nullable": true
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/prices": {
+            "get": {
+                "tags": [
+                    "Precios OMIE"
+                ],
+                "summary": "Obtiene los registros de precios OMIE_MD por hora",
+                "description": "Retorna los precios en €/kWh para cada hora (h1 a h25), opcionalmente filtrados por rango de fechas.",
+                "operationId": "getPrices",
+                "parameters": [
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "description": "Fecha inicio YYYY-MM-DD",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2025-03-01"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "description": "Fecha fin YYYY-MM-DD",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2025-03-31"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de precios por fecha y horas h1..h25",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "date": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "example": "2025-03-01"
+                                            },
+                                            "h1": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "example": 0.048
+                                            },
+                                            "h24": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "example": 0.055
+                                            },
+                                            "h25": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "example": null,
+                                                "nullable": true
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Cálculo de Energía",
+            "description": "Cálculo de Energía"
+        },
+        {
+            "name": "Consumos",
+            "description": "Consumos"
+        },
+        {
+            "name": "Precios OMIE",
+            "description": "Precios OMIE"
+        }
+    ]
+}
