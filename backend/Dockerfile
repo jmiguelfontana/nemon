@@ -1,7 +1,7 @@
 FROM php:8.4-cli-alpine
 
 # Instalar dependencias del sistema y extensiones de PHP necesarias (pdo_mysql, bcmath)
-RUN apk add --no-gradient --no-cache \
+RUN apk add --no-cache \
     bash \
     curl \
     git \
