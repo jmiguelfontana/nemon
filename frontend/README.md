@@ -51,4 +51,5 @@ La interfaz cuenta con una línea gráfica profesional diseñada para el sector 
 - Tema oscuro responsivo con paleta Slate / Cían Eléctrico (`sky-500`, `cyan-400`).
 - Tarjetas con efecto **Glassmorphism** y animaciones fluidas.
 - Formulario de cálculo dinámico con plantillas rápidas de fórmulas.
-- Paginación y filtrado horaria de consumos (kWh) y precios OMIE_MD (€/kWh).
+- Paginación y filtrado automático por rango de fechas (con formato local `dd/mm/yyyy`) y botón de Reset.
+- Despliegue en producción servido por Nginx, que actúa como Reverse Proxy para las peticiones a la API.

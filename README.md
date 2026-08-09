@@ -50,8 +50,8 @@ El proyecto cuenta con un flujo automatizado de CI/CD configurado en [.github/wo
 
 - **Cada `git push` a `main`**:
   1. Ejecuta automáticamente los tests de Laravel en PHP 8.4 con MySQL.
-  2. Compila y verifica la construcción de los contenedores Docker del Backend y Frontend.
-  3. (Opcional) Actualiza el despliegue mediante SSH en servidor de producción.
+  2. Construye los contenedores Docker y despliega automáticamente vía SSH en el servidor de producción (VPS en OVHcloud).
+  3. El tráfico está securizado y protegido mediante el WAF de Cloudflare, con un proxy inverso gestionado por Nginx.
 
 ---
 
