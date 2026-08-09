@@ -48,7 +48,7 @@ onMounted(() => {
         
         <!-- Swagger Doc Link -->
         <a 
-          href="http://localhost:8000/api/documentation" 
+          href="/api/documentation" 
           target="_blank" 
           rel="noopener noreferrer"
           class="hidden sm:flex items-center space-x-2 text-xs font-semibold px-3.5 py-2 rounded-lg bg-slate-900 text-slate-300 hover:text-sky-400 border border-slate-800 hover:border-sky-500/30 transition-all"

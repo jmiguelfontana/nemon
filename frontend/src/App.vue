@@ -35,7 +35,7 @@ async function handleCalculate(payload: CalculateRequest) {
     } else if (err.request) {
       error.value = {
         status: 0,
-        message: 'No se pudo establecer conexión con el servidor backend en http://localhost:8000. Asegúrate de ejecutar php artisan serve.',
+        message: 'No se pudo establecer conexión con el servidor backend. Asegúrate de que la API esté disponible.',
       };
     } else {
       error.value = {
