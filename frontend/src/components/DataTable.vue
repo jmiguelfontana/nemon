@@ -82,6 +82,16 @@ function getHeatmapClass(value: number | string | null, type: 'consumptions' | '
     return 'text-slate-300';
   }
 }
+
+function formatDate(dateStr: string): string {
+  if (!dateStr) return '';
+  // Asume formato yyyy-mm-dd que viene de la BD
+  const parts = dateStr.split('-');
+  if (parts.length === 3) {
+    return `${parts[2]}/${parts[1]}/${parts[0]}`;
+  }
+  return dateStr;
+}
 </script>
 
 <template>
@@ -203,7 +213,7 @@ function getHeatmapClass(value: number | string | null, type: 'consumptions' | '
             >
               <!-- Date Column -->
               <td class="py-2.5 px-4 font-semibold text-slate-200 bg-slate-950/80 border-r border-slate-800">
-                {{ row.date }}
+                {{ formatDate(row.date) }}
               </td>
               <!-- Hours h1 to h25 -->
               <td
