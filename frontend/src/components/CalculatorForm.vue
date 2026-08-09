@@ -30,9 +30,28 @@ function setPresetRange(start: string, end: string) {
   formError.value = null;
 }
 
+const formulaInput = ref<HTMLInputElement | null>(null);
+
 function insertOmieTag() {
   if (!formula.value.includes('[OMIE_MD]')) {
-    formula.value = formula.value ? `${formula.value} + [OMIE_MD]` : '[OMIE_MD]';
+    const input = formulaInput.value;
+    if (input && typeof input.selectionStart === 'number') {
+      const start = input.selectionStart;
+      const end = input.selectionEnd || start;
+      const before = formula.value.substring(0, start);
+      const after = formula.value.substring(end);
+      
+      formula.value = `${before}[OMIE_MD]${after}`;
+      
+      // Update cursor position after Vue re-renders
+      setTimeout(() => {
+        const newPos = start + '[OMIE_MD]'.length;
+        input.setSelectionRange(newPos, newPos);
+        input.focus();
+      }, 0);
+    } else {
+      formula.value = formula.value ? `${formula.value} + [OMIE_MD]` : '[OMIE_MD]';
+    }
   }
 }
 
@@ -168,6 +187,7 @@ function handleSubmit() {
         <div class="relative">
           <Sparkles class="w-4 h-4 text-white absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none z-10" />
           <input
+            ref="formulaInput"
             v-model="formula"
             type="text"
             placeholder="Ej: ([OMIE_MD] * 0.6) + 0.88"
