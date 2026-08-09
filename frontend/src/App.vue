@@ -87,6 +87,7 @@ function clearError() {
           <CalculatorForm 
             :loading="loading" 
             @submit="handleCalculate" 
+            @clear="result = null; error = null;"
           />
 
           <!-- Error Alert Banner -->

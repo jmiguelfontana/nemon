@@ -9,6 +9,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'submit', payload: CalculateRequest): void;
+  (e: 'clear'): void;
 }>();
 
 const startDate = ref<string>('2025-03-01');
@@ -42,6 +43,7 @@ function applyFormulaPreset(preset: string) {
 
 function handleSubmit() {
   formError.value = null;
+  emit('clear');
 
   if (!startDate.value || !endDate.value) {
     formError.value = 'Por favor selecciona la fecha de inicio y fin.';
