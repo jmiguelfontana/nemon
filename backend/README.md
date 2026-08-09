@@ -81,6 +81,12 @@ php artisan test
 
 ---
 
+## 🔒 Seguridad (Prevención RCE)
+
+Para la evaluación dinámica de fórmulas matemáticas suministradas desde el frontend, **se ha prohibido el uso de la función `eval()`** nativa de PHP. Todo el análisis y resolución de las fórmulas se delega en la librería especializada de análisis léxico **`nxp/math-executor`**, mitigando por completo el riesgo de inyecciones de código (Remote Code Execution).
+
+---
+
 ## 📑 Endpoints Principales
 
 - `POST /api/calculate`: Calcula el precio indexado en función del rango de fechas y la fórmula configurada.

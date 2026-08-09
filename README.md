@@ -38,6 +38,19 @@ nemon/
 
 ---
 
+## 🧠 Decisiones Técnicas Destacadas
+
+Al existir libertad tecnológica en las bases de la prueba, se ha optado por una **Arquitectura Desacoplada (API REST + SPA)** para maximizar la escalabilidad y aplicar separación de responsabilidades (*Separation of Concerns*). Las tecnologías elegidas y su justificación son:
+
+1. **Backend (Laravel 11 + PHP 8.4)**: Framework robusto que fomenta buenas prácticas, inyección de dependencias y código limpio.
+2. **ORM (Eloquent)**: Utilizado para la capa de persistencia con MySQL, garantizando una protección nativa contra inyecciones SQL en lugar de usar consultas crudas.
+3. **Cálculo Matemático (`nxp/math-executor`)**: Se delegó el parseo de la fórmula del cliente a esta librería léxica, **prohibiendo** explícitamente el uso de `eval()` para evitar vulnerabilidades de *Remote Code Execution* (RCE).
+4. **Frontend (Vue 3 Composition API + TypeScript)**: Proporciona tipado estricto y control total sobre el estado reactivo, evitando errores en tiempo de ejecución al manipular los datos de consumos.
+5. **Documentación como Contrato (Swagger/OpenAPI)**: Se ha integrado Swagger en el backend para autogenerar una interfaz interactiva de la API, sirviendo como contrato estricto de datos.
+6. **Infraestructura (Docker + Nginx)**: Todo el proyecto está orquestado mediante contenedores para asegurar la *paridad entre desarrollo y producción*, utilizando Nginx como proxy inverso para aislar la API de forma segura.
+
+---
+
 ## 🐳 Inicio Rápido con Docker Compose (Recomendado)
 
 Para desplegar la solución completa (Base de datos MySQL, API Backend Laravel y Frontend SPA Vue 3) en un solo comando:
@@ -96,5 +109,5 @@ El cálculo del precio indexado se realiza evaluando la fórmula configurada por
 
 $$\text{Precio Indexado} = \frac{\sum (\text{Resultado}(\text{Fórmula}) \times \text{Consumo Hora})}{\sum \text{Consumo Hora}}$$
 
-- **Evaluación Segura**: La fórmula reemplaza el segmento `[OMIE_MD]` por el precio horario OMIE y se evalúa con un parser matemático seguro sin hacer uso de `eval()`.
+- **Evaluación Segura (Prevención RCE)**: Se prohíbe el uso de la función nativa `eval()` de PHP para prevenir vulnerabilidades de ejecución de código remoto. La evaluación se realiza a través de un analizador léxico especializado (**`nxp/math-executor`**) que procesa matemáticamente la fórmula tras inyectar el precio horario OMIE.
 - **Tratamiento Horario (`h1` - `h25`)**: Manejo adecuado de horas pico/valle y cambio de horario DST.
