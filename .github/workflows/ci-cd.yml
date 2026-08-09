@@ -96,5 +96,9 @@ jobs:
           script: |
             cd /var/www/nemon
             git pull origin main
+            
+            # Inyectar variables de producción de forma automática y segura
+            echo "DB_PASSWORD=${{ secrets.PROD_DB_PASSWORD }}" > .env
+            
             docker compose down
             docker compose up --build -d
