@@ -9,8 +9,14 @@ done
 
 echo "✅ MySQL está listo."
 
+# Crear .env si no existe para que key:generate no falle
+if [ ! -f ".env" ]; then
+    echo "📄 Creando archivo .env desde .env.example..."
+    cp .env.example .env
+fi
+
 # Generar clave de aplicación si no existe
-if [ -z "$APP_KEY" ]; then
+if [ -z "$APP_KEY" ] && ! grep -q "^APP_KEY=base64:" .env; then
     echo "🔑 Generando APP_KEY..."
     php artisan key:generate --force
 fi
