@@ -49,8 +49,8 @@ function applyFilter() {
 }
 
 function resetFilter() {
-  startDateFilter.value = '';
-  endDateFilter.value = '';
+  startDateFilter.value = '2025-03-01';
+  endDateFilter.value = '2025-03-31';
   currentPage.value = 1;
   fetchData();
 }
@@ -149,16 +149,10 @@ function getHeatmapClass(value: number | string | null, type: 'consumptions' | '
           />
         </div>
         <button
-          @click="applyFilter"
+          @click="resetFilter"
           class="px-3 py-1.5 rounded-lg bg-sky-500/20 text-sky-300 hover:bg-sky-500/30 text-xs font-semibold border border-sky-500/30 transition-all"
         >
-          Filtrar
-        </button>
-        <button
-          @click="resetFilter"
-          class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium transition-all"
-        >
-          Limpiar
+          Reset
         </button>
       </div>
 
