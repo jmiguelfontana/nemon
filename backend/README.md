@@ -4,6 +4,13 @@ API REST desarrollada en **PHP 8.4.4** y **Laravel** encargada de la lógica de 
 
 ---
 
+## 🌍 Entorno de Producción
+
+- **Documentación API (Swagger)**: [https://nemon.robbytherobot.tech/api/documentation](https://nemon.robbytherobot.tech/api/documentation)
+- **Ruta Base API**: `https://nemon.robbytherobot.tech/api/`
+
+---
+
 ## 🚀 Requisitos del Sistema
 
 - **PHP**: `^8.4.4` (con extensiones `pdo_mysql`, `mbstring`, `openssl`, `bcmath`, `json`)

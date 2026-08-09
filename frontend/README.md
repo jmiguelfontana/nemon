@@ -4,6 +4,12 @@ Aplicación Single Page Application (SPA) desarrollada en **Vue 3**, **TypeScrip
 
 ---
 
+## 🌍 Entorno de Producción
+
+- **Plataforma Web (Live)**: [https://nemon.robbytherobot.tech](https://nemon.robbytherobot.tech)
+
+---
+
 ## 🚀 Requisitos del Sistema
 
 - **Node.js**: `v18.0.0` o superior

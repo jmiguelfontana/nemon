@@ -4,6 +4,14 @@ Solución web completa compuesta por una **API REST en PHP 8.4.4 / Laravel** y u
 
 ---
 
+## 🌍 Demo en Producción (Live)
+
+El proyecto se encuentra desplegado de forma automatizada y puedes probarlo en vivo aquí:
+- 🎨 **Plataforma Web**: [https://nemon.robbytherobot.tech](https://nemon.robbytherobot.tech)
+- 📖 **Documentación API (Swagger)**: [https://nemon.robbytherobot.tech/api/documentation](https://nemon.robbytherobot.tech/api/documentation)
+
+---
+
 ## 🏗️ Arquitectura del Sistema
 
 ```
@@ -86,7 +94,7 @@ npm run dev
 
 El cálculo del precio indexado se realiza evaluando la fórmula configurada por el usuario (ej. `([OMIE_MD] * 0.6) + 0.88`) para cada día y hora del periodo solicitado:
 
-$$\text{Precio Indexado} = \frac{\sum (\text{eval}(\text{Fórmula}) \times \text{Consumo Hora})}{\sum \text{Consumo Hora}}$$
+$$\text{Precio Indexado} = \frac{\sum (\text{Resultado}(\text{Fórmula}) \times \text{Consumo Hora})}{\sum \text{Consumo Hora}}$$
 
 - **Evaluación Segura**: La fórmula reemplaza el segmento `[OMIE_MD]` por el precio horario OMIE y se evalúa con un parser matemático seguro sin hacer uso de `eval()`.
 - **Tratamiento Horario (`h1` - `h25`)**: Manejo adecuado de horas pico/valle y cambio de horario DST.
