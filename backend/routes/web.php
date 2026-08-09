@@ -10,3 +10,7 @@ Route::get('/', function () {
         'documentation' => url('/api/documentation'),
     ]);
 });
+
+// Sobrescribir la ruta interna de Swagger para forzar que el archivo JSON vaya en la URL (/docs/api-docs.json)
+// y no como un parámetro de búsqueda (?api-docs.json), lo que puede ser bloqueado por Cloudflare WAF.
+Route::get('docs/api-docs.json', '\L5Swagger\Http\Controllers\SwaggerController@docs')->name('l5-swagger.default.docs');
