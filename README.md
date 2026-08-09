@@ -86,7 +86,7 @@ npm run dev
 
 El cálculo del precio indexado se realiza evaluando la fórmula configurada por el usuario (ej. `([OMIE_MD] * 0.6) + 0.88`) para cada día y hora del periodo solicitado:
 
-$$\text{precio\_indexado} = \frac{\sum (\text{eval}(\text{fórmula}) \times \text{consumo\_hora})}{\sum \text{consumo\_hora}}$$
+$$\text{Precio Indexado} = \frac{\sum (\text{eval}(\text{Fórmula}) \times \text{Consumo Hora})}{\sum \text{Consumo Hora}}$$
 
 - **Evaluación Segura**: La fórmula reemplaza el segmento `[OMIE_MD]` por el precio horario OMIE y se evalúa con un parser matemático seguro sin hacer uso de `eval()`.
 - **Tratamiento Horario (`h1` - `h25`)**: Manejo adecuado de horas pico/valle y cambio de horario DST.
