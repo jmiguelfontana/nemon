@@ -79,6 +79,8 @@ Para verificar el correcto funcionamiento de los cálculos, casos de validación
 php artisan test
 ```
 
+> **NOTA:** El sistema incluye un **Feature Test** clave (`CalculationTest.php`) que inyecta datos de consumo y precios totalmente controlados en la base de datos de pruebas (`nemon_energy_test`) para certificar que el motor matemático devuelve exactamente los valores financieros y ponderaciones esperadas.
+
 ---
 
 ## 🔒 Seguridad (Prevención RCE)

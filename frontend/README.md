@@ -62,7 +62,7 @@ El proyecto utiliza un enfoque bimodal para garantizar la calidad del código, s
    ```
 
 2. **Tests End-to-End (Playwright)**
-   Lanzan un navegador real y prueban el flujo completo (E2E). Permite separar el entorno mediante comandos:
+   Lanzan un navegador real y prueban el flujo completo (E2E), como el rellenado del formulario y validación del cálculo contra la API. Permite separar el entorno mediante comandos:
    - **Probar contra entorno Local** (`localhost:5173`):
      ```bash
      npm run test:e2e
