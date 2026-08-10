@@ -6,7 +6,9 @@ import type {
   PriceRecord,
 } from '../types/energy';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
+// Forzamos la base URL a '/api' para que el tráfico SIEMPRE pase por los proxies
+// (Vite en desarrollo y Nginx en producción), evitando problemas de CORS o resolución de localhost.
+const API_BASE_URL = '/api';
 
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -20,7 +22,7 @@ export const apiClient = axios.create({
  * Llama al endpoint POST /api/calculate
  */
 export async function calculateEnergy(data: CalculateRequest): Promise<CalculateResponse> {
-  const response = await apiClient.post<CalculateResponse>('/calculate', data);
+  const response = await apiClient.post<CalculateResponse>('calculate', data);
   return response.data;
 }
 
@@ -32,7 +34,7 @@ export async function getConsumptions(startDate?: string, endDate?: string): Pro
   if (startDate) params.start_date = startDate;
   if (endDate) params.end_date = endDate;
 
-  const response = await apiClient.get<ConsumptionRecord[]>('/consumptions', { params });
+  const response = await apiClient.get<ConsumptionRecord[]>('consumptions', { params });
   return response.data;
 }
 
@@ -44,7 +46,7 @@ export async function getPrices(startDate?: string, endDate?: string): Promise<P
   if (startDate) params.start_date = startDate;
   if (endDate) params.end_date = endDate;
 
-  const response = await apiClient.get<PriceRecord[]>('/prices', { params });
+  const response = await apiClient.get<PriceRecord[]>('prices', { params });
   return response.data;
 }
 
@@ -53,7 +55,7 @@ export async function getPrices(startDate?: string, endDate?: string): Promise<P
  */
 export async function checkApiHealth(): Promise<boolean> {
   try {
-    await apiClient.get('/consumptions', { params: { limit: 1 } });
+    await apiClient.get('consumptions', { params: { limit: 1 } });
     return true;
   } catch {
     return false;

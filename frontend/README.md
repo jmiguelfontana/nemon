@@ -35,7 +35,7 @@ Aplicación Single Page Application (SPA) desarrollada en **Vue 3**, **TypeScrip
    ```
    Ajusta la URL base del backend en `.env`:
    ```env
-   VITE_API_BASE_URL=http://localhost:8000/api
+   VITE_API_BASE_URL=/api
    ```
 
 4. **Iniciar el servidor de desarrollo (Vite)**:
