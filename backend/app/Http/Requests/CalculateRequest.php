@@ -34,6 +34,13 @@ class CalculateRequest extends FormRequest
                 function (string $attribute, mixed $value, \Closure $fail): void {
                     if (!is_string($value) || !str_contains($value, '[OMIE_MD]')) {
                         $fail('La fórmula debe incluir la etiqueta obligatoria [OMIE_MD].');
+                        return;
+                    }
+                    
+                    // Allowlist estricto: Eliminar [OMIE_MD] y comprobar si el resto son sólo números y operadores válidos
+                    $stripped = str_replace('[OMIE_MD]', '', $value);
+                    if (!preg_match('/^[\d\+\-\*\/\(\)\.\s]*$/', $stripped)) {
+                        $fail('La fórmula contiene caracteres no permitidos. Solo se permiten números, operadores matemáticos (+, -, *, /) y la etiqueta [OMIE_MD].');
                     }
                 },
             ],
