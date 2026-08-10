@@ -58,12 +58,35 @@ jobs:
           cd backend
           php artisan test
 
+  test-frontend:
+    name: 🧪 Ejecutar Tests de Frontend (Vitest)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Clonar repositorio
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 📦 Instalar dependencias
+        run: |
+          cd frontend
+          npm install
+
+      - name: 🧪 Ejecutar Tests Unitarios
+        run: |
+          cd frontend
+          npm run test:unit
+
   # -------------------------------------------------------------
-  # Job 2: Despliegue Continuo (Build de Contenedores Docker)
+  # Job 3: Despliegue Continuo (Build de Contenedores Docker)
   # -------------------------------------------------------------
   build-and-deploy:
     name: 🐳 Compilar y Construir Contenedores Docker
-    needs: test-backend
+    needs: [test-backend, test-frontend]
     runs-on: ubuntu-latest
 
     steps:

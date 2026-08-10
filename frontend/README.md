@@ -51,6 +51,29 @@ Aplicación Single Page Application (SPA) desarrollada en **Vue 3**, **TypeScrip
 
 ---
 
+## 🧪 Testing
+
+El proyecto utiliza un enfoque bimodal para garantizar la calidad del código, separando el entorno local de las pruebas reales de integración:
+
+1. **Tests Unitarios (Vitest + Vue Test Utils)**
+   Simulan la API y prueban la lógica de los componentes de forma aislada. No requieren servidor backend.
+   ```bash
+   npm run test:unit
+   ```
+
+2. **Tests End-to-End (Playwright)**
+   Lanzan un navegador real y prueban el flujo completo (E2E). Permite separar el entorno mediante comandos:
+   - **Probar contra entorno Local** (`localhost:5173`):
+     ```bash
+     npm run test:e2e
+     ```
+   - **Probar contra Producción** (`nemon.robbytherobot.tech`):
+     ```bash
+     npm run test:e2e:prod
+     ```
+
+---
+
 ## 🎨 Estética "Dark Electric Tech"
 
 La interfaz cuenta con una línea gráfica profesional diseñada para el sector energético:

@@ -101,4 +101,8 @@ export interface ApiErrorResponse {
 - **Vue 3 Composition API**: Usar `<script setup lang="ts">`.
 - **TypeScript Estricto**: Sin `any`.
 - **Estilo Eléctrico & Premium**: Mantener la estética visual oscura con acentos cían/azul eléctrico y glassmorphism.
+- **Testing Bimodal**: 
+  - **Unit Testing**: Vitest y Vue Test Utils (comando: `npm run test:unit`) con mocks de la API (separación total del backend).
+  - **E2E Testing**: Playwright para pruebas de integración reales en los entornos locales y de producción (comandos: `npm run test:e2e` y `npm run test:e2e:prod`).
+- **Separación de Entornos (Local vs Prod)**: Asegurar en todo momento que el frontend funcione perfectamente tanto en local (Vite dev server) como en producción (Nginx/Docker), gestionando las variables de entorno (`.env`) y proxies de manera optimizada y sin configuraciones hardcodeadas.
 - **README Actualizado**: Mantener `frontend/README.md` alineado con cada cambio o nuevo componente/dependencia agregada.

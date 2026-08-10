@@ -115,3 +115,4 @@ Este documento define las reglas de desarrollo, arquitectura y estándares de c�
 - **Swagger al Día**: Actualizar anotaciones y regenerar docs al modificar rutas o schemas.
 - **README Actualizado**: Actualizar `backend/README.md` tras cada hito o nueva característica instalada.
 - **Seguridad en Fórmulas**: Procesamiento mediante AST/MathParser (`mossaden/math-executor`), prohibido `eval()`.
+- **Soporte Local y Producción**: Asegurarse en todo momento de que el código funciona tanto en local como en producción. Separar correctamente y de manera optimizada ambos entornos (cuidando especialmente variables `.env`, integración en CI/CD y dependencias de testing).
