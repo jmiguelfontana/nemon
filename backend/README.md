@@ -71,6 +71,16 @@ Una vez iniciado el servidor, la documentación interactiva de los endpoints est
 
 ---
 
+## 🛠️ Pruebas Manuales (Requisito 3.3)
+
+Si deseas evaluar la aplicación introduciendo datos manualmente en la base de datos (mediante sentencias `INSERT`):
+1. Levanta el entorno local (pasos anteriores).
+2. Conéctate a tu base de datos local `nemon_energy` (ej. vía DBeaver o phpMyAdmin en `localhost:3306`).
+3. Hemos dejado un archivo de cortesía llamado `pruebas_manuales_3.3.sql` en la raíz del proyecto. Puedes copiar y pegar esos comandos SQL para inyectar datos reales del 15 de Marzo de 2025.
+4. Entra en la web local y calcula el precio indexado para ese día para comprobar el resultado.
+
+---
+
 ## 🧪 Ejecución de Pruebas Automatizadas (PHPUnit / Pest)
 
 Para verificar el correcto funcionamiento de los cálculos, casos de validación y códigos HTTP (`200`, `400`, `404`, `500`):
