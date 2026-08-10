@@ -43,7 +43,7 @@ API REST desarrollada en **PHP 8.4.4** y **Laravel** encargada de la lógica de 
    DB_PORT=3306
    DB_DATABASE=nemon_energy
    DB_USERNAME=nemon_app
-   DB_PASSWORD=nemon_secret
+   DB_PASSWORD=<tu_contraseña>
    ```
 
 4. **Ejecutar migraciones y datos de prueba (Seeders)**:
