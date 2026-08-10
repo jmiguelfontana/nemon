@@ -19,10 +19,12 @@ jobs:
         image: mysql:8.0
         env:
           MYSQL_DATABASE: nemon_energy_test
-          MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+          MYSQL_USER: nemon_app
+          MYSQL_PASSWORD: nemon_secret
+          MYSQL_ROOT_PASSWORD: nemon_root_secret
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        options: --health-cmd="mysqladmin ping -h localhost -u root -pnemon_root_secret" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
       - name: 📥 Clonar repositorio
@@ -52,8 +54,8 @@ jobs:
           DB_HOST: 127.0.0.1
           DB_PORT: 3306
           DB_DATABASE: nemon_energy_test
-          DB_USERNAME: root
-          DB_PASSWORD: ''
+          DB_USERNAME: nemon_app
+          DB_PASSWORD: nemon_secret
         run: |
           cd backend
           php artisan test
@@ -127,5 +129,15 @@ jobs:
               echo "DB_PASSWORD=${{ secrets.PROD_DB_PASSWORD }}" >> .env
             fi
             
+            if grep -q "^DB_USERNAME=" .env; then
+              sed -i "s/^DB_USERNAME=.*/DB_USERNAME=nemon_app/" .env
+            else
+              echo "DB_USERNAME=nemon_app" >> .env
+            fi
+            
             docker compose down
             docker compose up --build -d
+            
+            # Ejecutar script para asegurar la creación del usuario de base de datos en producción
+            sleep 10 # Dar tiempo a que MySQL levante completamente
+            bash setup-db.sh "${{ secrets.PROD_DB_PASSWORD }}"
