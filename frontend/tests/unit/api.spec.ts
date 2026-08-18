@@ -24,7 +24,19 @@ describe('API Service (Unit Test)', () => {
     
     const isHealthy = await checkApiHealth();
     expect(isHealthy).toBe(true);
-    expect(apiClient.get).toHaveBeenCalledWith('consumptions', { params: { limit: 1 } });
+    expect(apiClient.get).toHaveBeenCalledWith('consumptions', { params: { start_date: '2025-01-01', end_date: '2025-01-01', limit: 1 } });
+  });
+
+  it('checkApiHealth should return true if request fails with 422 (validation error)', async () => {
+    const { apiClient } = await import('../../src/services/api');
+    
+    // Forzamos un error 422
+    const error422: any = new Error('Unprocessable Entity');
+    error422.response = { status: 422 };
+    vi.mocked(apiClient.get).mockRejectedValueOnce(error422);
+    
+    const isHealthy = await checkApiHealth();
+    expect(isHealthy).toBe(true);
   });
 
   it('checkApiHealth should return false if request fails', async () => {
