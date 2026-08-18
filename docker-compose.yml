@@ -51,15 +51,6 @@ services:
       - "5173:80"
     depends_on:
       - backend
-  # 4. Cloudflare Tunnel
-  tunnel:
-    image: cloudflare/cloudflared:latest
-    container_name: nemon_tunnel
-    restart: always
-    command: tunnel --no-autoupdate run --token eyJhIjoiZmFlMjQxMjA1NjZlNzIwMjE1NDE3NzFkMjEzZWI1NGMiLCJ0IjoiYmEzYjc1NWEtMDdjMC00N2FlLTg0ZjAtNDAwNTU3NTljN2M0IiwicyI6IllUYzJOamhpWVRVdFkyVXlOeTAwTTJWbUxXSXlZVGN0TkdObFpqUTNaalZoTWpFeSJ9
-    depends_on:
-      - backend
-      - frontend
 
 volumes:
   mysql_data:
