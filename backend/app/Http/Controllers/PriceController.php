@@ -18,10 +18,14 @@ class PriceController extends Controller
         operationId: 'getPrices',
         tags: ['Precios OMIE'],
         parameters: [
-            new OA\Parameter(name: 'start_date', in: 'query', required: false, description: 'Fecha inicio YYYY-MM-DD', schema: new OA\Schema(type: 'string', format: 'date', example: '2025-03-01')),
-            new OA\Parameter(name: 'end_date', in: 'query', required: false, description: 'Fecha fin YYYY-MM-DD', schema: new OA\Schema(type: 'string', format: 'date', example: '2025-03-31')),
+            new OA\Parameter(name: 'start_date', in: 'query', required: true, description: 'Fecha inicio YYYY-MM-DD', schema: new OA\Schema(type: 'string', format: 'date', example: '2025-03-01')),
+            new OA\Parameter(name: 'end_date', in: 'query', required: true, description: 'Fecha fin YYYY-MM-DD', schema: new OA\Schema(type: 'string', format: 'date', example: '2025-03-31')),
         ],
         responses: [
+            new OA\Response(
+                response: 422,
+                description: 'Unprocessable Entity - Faltan fechas o el formato es inválido',
+            ),
             new OA\Response(
                 response: 200,
                 description: 'Lista de precios por fecha y horas h1..h25',
@@ -42,16 +46,15 @@ class PriceController extends Controller
     )]
     public function __invoke(Request $request): JsonResponse
     {
-        $startDate = $request->query('start_date');
-        $endDate = $request->query('end_date');
+        $validated = $request->validate([
+            'start_date' => 'required|date_format:Y-m-d',
+            'end_date' => 'required|date_format:Y-m-d|after_or_equal:start_date',
+        ]);
 
-        $query = Price::query();
-
-        if (is_string($startDate) && is_string($endDate) && $startDate !== '' && $endDate !== '') {
-            $query->betweenDates($startDate, $endDate);
-        }
-
-        $prices = $query->orderBy('date', 'asc')->get();
+        $prices = Price::query()
+            ->betweenDates($validated['start_date'], $validated['end_date'])
+            ->orderBy('date', 'asc')
+            ->get();
 
         return response()->json($prices, 200);
     }
