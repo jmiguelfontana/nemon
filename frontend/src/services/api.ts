@@ -55,9 +55,15 @@ export async function getPrices(startDate?: string, endDate?: string): Promise<P
  */
 export async function checkApiHealth(): Promise<boolean> {
   try {
-    await apiClient.get('consumptions', { params: { limit: 1 } });
+    await apiClient.get('consumptions', { 
+      params: { start_date: '2025-01-01', end_date: '2025-01-01', limit: 1 } 
+    });
     return true;
-  } catch {
+  } catch (error: any) {
+    // Si da un error de validación (422) significa que el backend está vivo y contestando.
+    if (error.response && error.response.status === 422) {
+      return true;
+    }
     return false;
   }
 }
